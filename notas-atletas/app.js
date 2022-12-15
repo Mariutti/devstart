@@ -17,40 +17,26 @@ let atletas = [
   }
 ];
 
-let ordenaNotas = function (arrayDeAtletas) {
-  arrayDeAtletas.forEach((atleta) => {
-    atleta.notas = atleta.notas.sort(function (a, b) {
+class Atleta {
+  constructor(atleta) {
+    this.nome = atleta.nome;
+    this.notas = atleta.notas;
+    this.notas = this.notas.sort(function (a, b) {
       return a - b;
     });
-  });
-  return arrayDeAtletas;
+    this.notas = this.notas.slice(1, 4);
+    this.media = this.notas.reduce((total, atual) => total + atual, 0) / this.notas.length;
+  }
+}
+
+let mostraMedia = (listaDeAtletas) => {
+  let string = "";
+  for (let i = listaDeAtletas.length - 1; i >= 0; i--) {
+    let atleta = new Atleta(listaDeAtletas[i]);
+    string = `Atleta: ${atleta.nome}\nNotas: ${atleta.notas}\nMedia: ${atleta.media}\n\n` + string;
+  }
+  return string;
 };
 
-let retiraExtremos = function (arrayDeAtletas) {
-  ordenaNotas(arrayDeAtletas).forEach((atleta) => {
-    atleta.notas = atleta.notas.slice(1, 4);
-  });
-  return arrayDeAtletas;
-};
-
-let calculaMedia = function (arrayDeAtletas) {
-  retiraExtremos(arrayDeAtletas).forEach(function (atleta) {
-    atleta.media =
-      atleta.notas.reduce(function (total, atual) {
-        return total + atual;
-      }, 0) / atleta.notas.length;
-  });
-  return arrayDeAtletas;
-};
-
-let mostraNotas = function (arrayDeAtletas) {
-  calculaMedia(arrayDeAtletas);
-
-  return arrayDeAtletas.forEach(function (atleta) {
-    console.log(
-      `Atleta: ${atleta.nome}\nNotas: ${atleta.notas}\nMedia: ${atleta.media}`
-    );
-  });
-};
-
+console.log(mostraMedia(atletas));
 mostraNotas(atletas);
